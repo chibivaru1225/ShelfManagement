@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ZOA 棚管理</string>
+    <string name="btnScan_Label">カメラ起動</string>
+    <string name="btnHistory_Label">履歴</string>
+    <string name="wait_txt">お待ちください……</string>
+    <string name="nsBtnA">POPを撤去</string>
+    <string name="nsBtnB">移送を依頼する</string>
+    <string name="nsTxtA">削定番品です</string>
+    <string name="nsTxtB">全店在庫 ○○ 週売</string>
+    <string name="nsTxtC">粗利 ○○○</string>
+    <string name="stBtnA">発点増申請</string>
+    <string name="stTxtA">定番品 発点○○</string>
+    <string name="osBtnA">陳列(または在庫check)指示</string>
+    <string name="osBtnB">POP作成</string>
+    <string name="osTxtA">在庫があります</string>
+    <string name="slBtnA">全選択</string>
+    <string name="slBtnB">全解除</string>
+    <string name="slBtnC">送信</string>
+    <string name="noBtnA">次のバーコードを読み取る</string>
+    <string name="noBtnB">メニューに戻る</string>
+    <string name="asCbxA">送信する</string>
+</resources>
