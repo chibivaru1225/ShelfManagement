@@ -58,7 +58,14 @@ public class ActivityWait extends AppCompatActivity implements WifiP2pManager.Ac
 
     @Override
     public void onFailure(int reason) {
-        Toast.makeText(this, "FAILURE HttpGet", Toast.LENGTH_SHORT).show();
+        switch (reason) {
+            case 1:
+                Toast.makeText(this, "存在しない商品です", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(this, "FAILURE HttpGet", Toast.LENGTH_SHORT).show();
+                break;
+        }
         finish();
     }
 }

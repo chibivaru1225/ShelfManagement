@@ -103,7 +103,7 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
 
     @Override
     public synchronized Boolean continueScanWhenReceivedScanData(HashMap<String, String> hashMap, Boolean aBoolean) throws CameraAccessException {
-        //asBarcode.stopScan();
+        asBarcode.stopScan();
         synchronized (this) {
             try {
                 if (hashMap != null) {

@@ -19,4 +19,5 @@
     <string name="noBtnA">次のバーコードを読み取る</string>
     <string name="noBtnB">メニューに戻る</string>
     <string name="asCbxA">送信する</string>
+    <string name="ssTxtA">送信中……</string>
 </resources>

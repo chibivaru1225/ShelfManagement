@@ -31,7 +31,8 @@ public class TaskHttpGet extends AsyncTask<String, Integer, ShelfStatus> {
     @Override
     protected ShelfStatus doInBackground(String... itemid) {
         // 使用するサーバーのURLに合わせる
-        String urlSt = "http://webhn.zoa.local/Magic94Scripts/MGRQISPI94.dll?APPNAME=WEBHNCTL&PRGNAME=itemSearchByJAN&ARGUMENTS=-N";
+        //String urlSt = "http://webhn.zoa.local/Magic94Scripts/MGRQISPI94.dll?APPNAME=WEBHNCTL&PRGNAME=itemSearchByJAN&ARGUMENTS=-N";
+        String urlSt = "http://webhn.zoa.local/Magic94Scripts/MGRQISPI94.dll?APPNAME=WEBHNCTL&PRGNAME=GetBhtItemInfo&ARGUMENTS=-N";
 
         HttpURLConnection httpConn = null;
         String urlfull = urlSt + itemid[0];
@@ -45,20 +46,24 @@ public class TaskHttpGet extends AsyncTask<String, Integer, ShelfStatus> {
 
             httpConn = (HttpURLConnection) url.openConnection();
             httpConn.setRequestMethod("GET");
-            httpConn.setConnectTimeout(1000);
-            httpConn.setReadTimeout(10000);
+            //httpConn.setConnectTimeout(0);
+            //httpConn.setReadTimeout(0);
             httpConn.connect();
 
             int responseCode = httpConn.getResponseCode();
 
+            System.out.println("code:" + responseCode);
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 // 通信に成功した
                 // テキストを取得する
                 in = httpConn.getInputStream();
                 encoding = httpConn.getContentEncoding();
+                System.out.println("getencoding:" + httpConn.getContentEncoding());
                 if (null == encoding) {
-                    encoding = "UTF-8";
+                    encoding = "SHIFT-JIS";
                 }
+
+                return ShelfStatus.AnalysisInputStream(in, encoding);
 
             } else {
                 return new ShelfStatus(ShelfStatus.ItemStatus.NONE);
@@ -82,14 +87,14 @@ public class TaskHttpGet extends AsyncTask<String, Integer, ShelfStatus> {
 
         } catch (Exception e) {
             e.printStackTrace();
-                return new ShelfStatus(ShelfStatus.ItemStatus.NONE);
+            return new ShelfStatus(ShelfStatus.ItemStatus.NONE);
         } finally {
             if (httpConn != null) {
                 httpConn.disconnect();
             }
         }
 
-        return ShelfStatus.AnalysisInputStream(itemid[0], in, encoding);
+        //return ShelfStatus.AnalysisInputStream(itemid[0], in, encoding);
     }
 
     @Override
@@ -103,8 +108,15 @@ public class TaskHttpGet extends AsyncTask<String, Integer, ShelfStatus> {
         this.status = result;
 
         if (listener != null) {
-            if (result.GetItemStatus() != ShelfStatus.ItemStatus.NONE) {
-                listener.onSuccess();
+            if (status != null) {
+                System.out.println("ItemStatus:" + status.GetItemStatus());
+                System.out.println("ItemName:" + status.GetItemName() + ":eof");
+                if (status.GetItemStatus() != ShelfStatus.ItemStatus.NONE && !status.GetItemName().isEmpty()) {
+                    System.out.println("Success");
+                    listener.onSuccess();
+                } else {
+                    listener.onFailure(1);
+                }
             } else {
                 listener.onFailure(0);
             }

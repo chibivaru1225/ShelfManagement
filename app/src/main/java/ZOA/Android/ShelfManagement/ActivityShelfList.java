@@ -1,7 +1,9 @@
 package ZOA.Android.ShelfManagement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -31,6 +33,9 @@ public class ActivityShelfList extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+
+        //Button b = findViewById(R.id.slBtnC);
+        findViewById(R.id.slBtnC).setEnabled(ShelfStatus.GetShelfStatusList().size() > 0);
     }
 
     public void slBtnA_Click(View v) {
@@ -44,7 +49,8 @@ public class ActivityShelfList extends AppCompatActivity {
     }
 
     public void slBtnC_Click(View v) {
-        ShelfStatus.ClearShelfStatusList();
-        finish();
+        startActivity(new Intent(getApplication(), ActivityShelfSend.class));
+//        ShelfStatus.ClearShelfStatusList();
+////        finish();
     }
 }
