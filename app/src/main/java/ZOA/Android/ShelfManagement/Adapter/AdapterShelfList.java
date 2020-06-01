@@ -1,17 +1,18 @@
-package ZOA.Android.ShelfManagement;
+package ZOA.Android.ShelfManagement.Adapter;
 
-import android.net.wifi.p2p.WifiP2pManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import ZOA.Android.ShelfManagement.R;
+import ZOA.Android.ShelfManagement.Basic.ShelfStatus;
 
 public class AdapterShelfList extends RecyclerView.Adapter<AdapterShelfList.ShelfViewHolder> {
 

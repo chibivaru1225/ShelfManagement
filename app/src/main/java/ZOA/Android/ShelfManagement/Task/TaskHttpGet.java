@@ -1,14 +1,14 @@
-package ZOA.Android.ShelfManagement;
+package ZOA.Android.ShelfManagement.Task;
 
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.AsyncTask;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Random;
+
+import ZOA.Android.ShelfManagement.Basic.ShelfStatus;
+import ZOA.Android.ShelfManagement.Basic.Util;
 
 public class TaskHttpGet extends AsyncTask<String, Integer, ShelfStatus> {
 
@@ -32,10 +32,10 @@ public class TaskHttpGet extends AsyncTask<String, Integer, ShelfStatus> {
     protected ShelfStatus doInBackground(String... itemid) {
         // 使用するサーバーのURLに合わせる
         //String urlSt = "http://webhn.zoa.local/Magic94Scripts/MGRQISPI94.dll?APPNAME=WEBHNCTL&PRGNAME=itemSearchByJAN&ARGUMENTS=-N";
-        String urlSt = "http://webhn.zoa.local/Magic94Scripts/MGRQISPI94.dll?APPNAME=WEBHNCTL&PRGNAME=GetBhtItemInfo&ARGUMENTS=-N";
+        //String urlSt = "http://webhn.zoa.local/Magic94Scripts/MGRQISPI94.dll?APPNAME=WEBHNCTL&PRGNAME=GetBhtItemInfo&ARGUMENTS=-N";
 
         HttpURLConnection httpConn = null;
-        String urlfull = urlSt + itemid[0];
+        String urlfull = Util.GetURL + itemid[0];
         InputStream in;
         String encoding;
         //ShelfStatus.SetNewKey(itemid[0]);
@@ -66,7 +66,7 @@ public class TaskHttpGet extends AsyncTask<String, Integer, ShelfStatus> {
                 return ShelfStatus.AnalysisInputStream(in, encoding);
 
             } else {
-                return new ShelfStatus(ShelfStatus.ItemStatus.NONE);
+                return new ShelfStatus(ShelfStatus.ItemStatus.NONE, ShelfStatus.ErrorStatus.HttpGetError);
             }
 //            try (// POSTデータ送信処理
 //                 OutputStream outStream = httpConn.getOutputStream()) {
@@ -87,7 +87,7 @@ public class TaskHttpGet extends AsyncTask<String, Integer, ShelfStatus> {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return new ShelfStatus(ShelfStatus.ItemStatus.NONE);
+            return new ShelfStatus(ShelfStatus.ItemStatus.NONE, ShelfStatus.ErrorStatus.HttpGetError);
         } finally {
             if (httpConn != null) {
                 httpConn.disconnect();
@@ -115,7 +115,18 @@ public class TaskHttpGet extends AsyncTask<String, Integer, ShelfStatus> {
                     System.out.println("Success");
                     listener.onSuccess();
                 } else {
-                    listener.onFailure(1);
+                    switch (status.GetErrorStatus())
+                    {
+                        case HttpGetError:
+                            listener.onFailure(1);
+                            break;
+                        case JsonParseError:
+                            listener.onFailure(2);
+                            break;
+                        default:
+                            listener.onFailure(0);
+                            break;
+                    }
                 }
             } else {
                 listener.onFailure(0);

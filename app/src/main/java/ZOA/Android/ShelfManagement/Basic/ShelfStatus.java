@@ -1,4 +1,4 @@
-package ZOA.Android.ShelfManagement;
+package ZOA.Android.ShelfManagement.Basic;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -7,13 +7,13 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class ShelfStatus {
 
     private ItemStatus itemstatus;
     private SelectStatus selectstatus;
+    private ErrorStatus errorstatus;
     private String ipaddress;
     private String stream;
     private boolean issend;
@@ -32,6 +32,7 @@ public class ShelfStatus {
 
     public ShelfStatus() {
         itemstatus = ItemStatus.NONE;
+        errorstatus = ErrorStatus.NONE;
         selectstatus = SelectStatus.NONE;
         jancode = "";
         itemname = "";
@@ -49,8 +50,9 @@ public class ShelfStatus {
         arari = 0;
     }
 
-    public ShelfStatus(ItemStatus status) {
-        itemstatus = status;
+    public ShelfStatus(ItemStatus istatus, ErrorStatus estatus) {
+        itemstatus = istatus;
+        errorstatus = estatus;
         selectstatus = SelectStatus.NONE;
         jancode = "";
         itemname = "";
@@ -105,6 +107,14 @@ public class ShelfStatus {
 
     public SelectStatus GetSelectStatus() {
         return this.selectstatus;
+    }
+
+    public void SetErrorStatus(ErrorStatus status) {
+        this.errorstatus = status;
+    }
+
+    public ErrorStatus GetErrorStatus() {
+        return this.errorstatus;
     }
 
     public void SetIsSend(boolean send) {
@@ -378,11 +388,12 @@ public class ShelfStatus {
 
         } catch (JSONException jex) {
             System.out.println(jex.getMessage());
-            return null;
+            status.SetErrorStatus(ErrorStatus.JsonParseError);
         }
 
         return status;
     }
+
 
     public static String GetItemStatusText(ItemStatus status) {
         switch (status) {
@@ -444,6 +455,12 @@ public class ShelfStatus {
         Display,
         PopCreate,
         OPIncrease,
+        NONE,
+    }
+
+    public enum ErrorStatus {
+        HttpGetError,
+        JsonParseError,
         NONE,
     }
 }

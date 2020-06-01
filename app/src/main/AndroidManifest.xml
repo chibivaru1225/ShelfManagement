@@ -9,24 +9,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityMain">
+        <activity android:name=".Activity.ActivityMain">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity  android:name=".ActivityReader"></activity>
-        <activity  android:name=".ActivityNotStandard"></activity>
-        <activity  android:name=".ActivityWait"></activity>
-        <activity  android:name=".ActivityOnStock"></activity>
-        <activity  android:name=".ActivityStandard"></activity>
-        <activity  android:name=".ActivityShelfList"></activity>
-        <activity  android:name=".ActivityNextOperation"></activity>
-        <activity  android:name=".ActivityShelfSend"></activity>
+        <activity  android:name=".Activity.ActivityReader"></activity>
+        <activity  android:name=".Activity.ActivityNotStandard"></activity>
+        <activity  android:name=".Activity.ActivityWait"></activity>
+        <activity  android:name=".Activity.ActivityOnStock"></activity>
+        <activity  android:name=".Activity.ActivityStandard"></activity>
+        <activity  android:name=".Activity.ActivityShelfList"></activity>
+        <activity  android:name=".Activity.ActivityNextOperation"></activity>
+        <activity  android:name=".Activity.ActivityShelfSend"></activity>
     </application>
     <uses-feature android:name="android.hardware.camera" />
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.CAMERA"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 </manifest>

@@ -1,7 +1,12 @@
-package ZOA.Android.ShelfManagement;
+package ZOA.Android.ShelfManagement.Task;
 
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.AsyncTask;
+
+import com.google.gson.Gson;
+
+import ZOA.Android.ShelfManagement.JSON.StatusJSONParent;
+import ZOA.Android.ShelfManagement.Basic.ShelfStatus;
 
 public class TaskHttpPost extends AsyncTask<ShelfStatus, Integer, Boolean> {
 
@@ -24,15 +29,19 @@ public class TaskHttpPost extends AsyncTask<ShelfStatus, Integer, Boolean> {
 
     @Override
     protected Boolean doInBackground(ShelfStatus... shelfStatus) {
-        synchronized (this)
-        {
+            StatusJSONParent data = StatusJSONParent.ConvertStatusJSON(ShelfStatus.GetShelfStatusList());
+
+
             try {
-                wait(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                return false;
+                Gson gson = new Gson();
+                String json = gson.toJson(data);
+
+
             }
-        }
+            catch (Exception e)
+            {
+
+            }
         return true;
     }
 

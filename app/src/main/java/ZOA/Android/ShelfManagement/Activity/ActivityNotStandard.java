@@ -1,10 +1,14 @@
-package ZOA.Android.ShelfManagement;
+package ZOA.Android.ShelfManagement.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import ZOA.Android.ShelfManagement.R;
+import ZOA.Android.ShelfManagement.Basic.ShelfStatus;
 
 public class ActivityNotStandard extends AppCompatActivity {
     @Override
@@ -12,6 +16,12 @@ public class ActivityNotStandard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.not_standard);
         setTitle(ShelfStatus.GetLatestShelfStatus().GetItemName());
+
+        TextView txtB = findViewById(R.id.nsTxtB);
+        TextView txtC = findViewById(R.id.nsTxtC);
+        txtB.setText(String.format(getString(R.string.nsTxtB), ShelfStatus.GetLatestShelfStatus().GetSyubai1()));
+        txtC.setText(String.format(getString(R.string.nsTxtC), ShelfStatus.GetLatestShelfStatus().GetArari()));
+        //txtB.setText();
     }
 
     public void nsBtnA_Click(View v) {

@@ -1,9 +1,12 @@
-package ZOA.Android.ShelfManagement;
+package ZOA.Android.ShelfManagement.Activity;
 
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import ZOA.Android.ShelfManagement.R;
+import ZOA.Android.ShelfManagement.Basic.ShelfStatus;
 
 public class ActivityNextOperation extends AppCompatActivity {
 

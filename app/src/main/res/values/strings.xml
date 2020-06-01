@@ -6,10 +6,10 @@
     <string name="nsBtnA">POPを撤去</string>
     <string name="nsBtnB">移送を依頼する</string>
     <string name="nsTxtA">削定番品です</string>
-    <string name="nsTxtB">全店在庫 ○○ 週売</string>
-    <string name="nsTxtC">粗利 ○○○</string>
+    <string name="nsTxtB">全店在庫 %d 週売</string>
+    <string name="nsTxtC">粗利 %,d</string>
     <string name="stBtnA">発点増申請</string>
-    <string name="stTxtA">定番品 発点○○</string>
+    <string name="stTxtA">定番品 発点%d</string>
     <string name="osBtnA">陳列(または在庫check)指示</string>
     <string name="osBtnB">POP作成</string>
     <string name="osTxtA">在庫があります</string>

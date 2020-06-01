@@ -1,4 +1,4 @@
-package ZOA.Android.ShelfManagement;
+package ZOA.Android.ShelfManagement.Activity;
 
 import android.content.Intent;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import ZOA.Android.ShelfManagement.R;
+import ZOA.Android.ShelfManagement.Basic.ShelfStatus;
+import ZOA.Android.ShelfManagement.Task.TaskHttpGet;
 
 public class ActivityWait extends AppCompatActivity implements WifiP2pManager.ActionListener {
 
@@ -59,8 +63,15 @@ public class ActivityWait extends AppCompatActivity implements WifiP2pManager.Ac
     @Override
     public void onFailure(int reason) {
         switch (reason) {
-            case 1:
+
+            case 0:
                 Toast.makeText(this, "存在しない商品です", Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+                Toast.makeText(this, "FAILURE HttpGet", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Toast.makeText(this, "データの変換に失敗しました", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 Toast.makeText(this, "FAILURE HttpGet", Toast.LENGTH_SHORT).show();

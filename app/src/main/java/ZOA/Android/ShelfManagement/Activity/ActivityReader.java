@@ -1,4 +1,4 @@
-package ZOA.Android.ShelfManagement;
+package ZOA.Android.ShelfManagement.Activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
@@ -27,6 +26,9 @@ import com.asreader.asbarcode.CertifiedSDKInterface;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import ZOA.Android.ShelfManagement.R;
+import ZOA.Android.ShelfManagement.Basic.ShelfStatus;
 
 public class ActivityReader extends AppCompatActivity implements AsPointerManagerInterface, AsPointerInterface, CertifiedSDKInterface {
 
