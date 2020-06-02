@@ -29,19 +29,17 @@ public class TaskHttpPost extends AsyncTask<ShelfStatus, Integer, Boolean> {
 
     @Override
     protected Boolean doInBackground(ShelfStatus... shelfStatus) {
-            StatusJSONParent data = StatusJSONParent.ConvertStatusJSON(ShelfStatus.GetShelfStatusList());
+        StatusJSONParent data = StatusJSONParent.ConvertStatusJSON(ShelfStatus.GetShelfStatusList());
 
 
-            try {
-                Gson gson = new Gson();
-                String json = gson.toJson(data);
+        try {
+            Gson gson = new Gson();
+            String json = gson.toJson(data);
 
 
-            }
-            catch (Exception e)
-            {
+        } catch (Exception e) {
 
-            }
+        }
         return true;
     }
 

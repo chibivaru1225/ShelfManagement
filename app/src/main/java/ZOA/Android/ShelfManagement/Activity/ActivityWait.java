@@ -18,7 +18,7 @@ public class ActivityWait extends AppCompatActivity implements WifiP2pManager.Ac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.wait);
+        setContentView(R.layout.activity_wait);
     }
 
     @Override

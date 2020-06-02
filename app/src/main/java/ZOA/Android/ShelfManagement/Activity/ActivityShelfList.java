@@ -20,7 +20,7 @@ public class ActivityShelfList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shelf_list);
+        setContentView(R.layout.activity_shelf_list);
 
         RecyclerView rv = findViewById(R.id.ShelfListView);
         adapter = new AdapterShelfList(ShelfStatus.GetShelfStatusList());

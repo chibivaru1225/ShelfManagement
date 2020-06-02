@@ -52,7 +52,7 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.reader);
+        setContentView(R.layout.activity_reader);
 
         asBarcode = AsBarcode.getInstance();
 

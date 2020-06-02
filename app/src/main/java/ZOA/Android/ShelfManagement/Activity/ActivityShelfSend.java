@@ -21,7 +21,7 @@ public class ActivityShelfSend extends AppCompatActivity implements WifiP2pManag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shelf_send);
+        setContentView(R.layout.activity_shelf_send);
     }
 
     @Override

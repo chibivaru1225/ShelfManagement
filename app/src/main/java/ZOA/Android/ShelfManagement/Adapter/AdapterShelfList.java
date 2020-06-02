@@ -58,7 +58,7 @@ public class AdapterShelfList extends RecyclerView.Adapter<AdapterShelfList.Shel
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.cbSend.setChecked(statuslist.get(position).GetIsSend());
-        holder.txtItemName.setText(statuslist.get(position).GetItemName());
+        holder.txtItemName.setText(statuslist.get(position).GetShohinCode());
         holder.txtItemStatus.setText(ShelfStatus.GetItemStatusText(statuslist.get(position).GetItemStatus()));
         holder.txtSelectStatus.setText(ShelfStatus.GetSelectStatusText(statuslist.get(position).GetSelectStatus()));
 

@@ -8,26 +8,41 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import ZOA.Android.ShelfManagement.R;
+
+import static android.provider.Settings.System.getString;
+
 
 public class ShelfStatus {
 
     private ItemStatus itemstatus;
     private SelectStatus selectstatus;
     private ErrorStatus errorstatus;
-    private String ipaddress;
-    private String stream;
+    private String jsontxt;
     private boolean issend;
 
     private String jancode;
-    private String itemname;
+    private String shohinban;
+    private String shohincode;
+    private String mise;
     private String jyotai;
-    private int zaiko;
-    private int hattyu;
-    private int zaihatsu;
-    private int iso;
-    private int syubai1;
-    private int syubai2;
-    private int syubai3;
+
+    private int jzaiko;
+    private int jhatten;
+    private int jzaihatsu;
+    private int jiso;
+    private int jsyubai1;
+    private int jsyubai2;
+    private int jsyubai3;
+
+    private int zzaiko;
+    private int zhatten;
+    private int zzaihatsu;
+    private int ziso;
+    private int zsyubai1;
+    private int zsyubai2;
+    private int zsyubai3;
+
     private int arari;
 
     public ShelfStatus() {
@@ -35,18 +50,27 @@ public class ShelfStatus {
         errorstatus = ErrorStatus.NONE;
         selectstatus = SelectStatus.NONE;
         jancode = "";
-        itemname = "";
+        shohincode = "";
         jyotai = "";
         issend = true;
         //ipaddress =
 
-        zaiko = 0;
-        hattyu = 0;
-        zaihatsu = 0;
-        iso = 0;
-        syubai1 = 0;
-        syubai2 = 0;
-        syubai3 = 0;
+        jzaiko = 0;
+        jhatten = 0;
+        jzaihatsu = 0;
+        jiso = 0;
+        jsyubai1 = 0;
+        jsyubai2 = 0;
+        jsyubai3 = 0;
+
+        zzaiko = 0;
+        zhatten = 0;
+        zzaihatsu = 0;
+        ziso = 0;
+        zsyubai1 = 0;
+        zsyubai2 = 0;
+        zsyubai3 = 0;
+
         arari = 0;
     }
 
@@ -55,45 +79,46 @@ public class ShelfStatus {
         errorstatus = estatus;
         selectstatus = SelectStatus.NONE;
         jancode = "";
-        itemname = "";
+        shohincode = "";
         jyotai = "";
         issend = true;
 
-        zaiko = 0;
-        hattyu = 0;
-        zaihatsu = 0;
-        iso = 0;
-        syubai1 = 0;
-        syubai2 = 0;
-        syubai3 = 0;
+        jzaiko = 0;
+        jhatten = 0;
+        jzaihatsu = 0;
+        jiso = 0;
+        jsyubai1 = 0;
+        jsyubai2 = 0;
+        jsyubai3 = 0;
+
+        zzaiko = 0;
+        zhatten = 0;
+        zzaihatsu = 0;
+        ziso = 0;
+        zsyubai1 = 0;
+        zsyubai2 = 0;
+        zsyubai3 = 0;
+
         arari = 0;
     }
 
-    public void SetShelfStatus(int zaiko, int orderpoint) {
-        this.zaiko = zaiko;
-        this.hattyu = orderpoint;
-    }
-
-    public void SetItemStatus(ItemStatus status) {
-        this.itemstatus = status;
-    }
 
     public ItemStatus GetItemStatus() {
 
-        if (this.hattyu == 0) {
-            if (this.zaiko <= 0) {
-                System.out.println("hattyu == 0 && zaiko <= 0 : hattyu=" + hattyu + " zaiko=" + zaiko);
+        if (this.jhatten == 0) {
+            if (this.jzaiko <= 0) {
+                System.out.println("jhattyu == 0 && jzaiko <= 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
                 return ItemStatus.NotStandard;
-            } else if (this.zaiko > 0) {
-                System.out.println("hattyu == 0 && zaiko > 0 : hattyu=" + hattyu + " zaiko=" + zaiko);
+            } else if (this.jzaiko > 0) {
+                System.out.println("jhattyu == 0 && jzaiko > 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
                 return ItemStatus.OnStock;
             }
-        } else if (this.hattyu > 0) {
-            if (this.zaiko > 0) {
-                System.out.println("hattyu > 0 && zaiko > 0 : hattyu=" + hattyu + " zaiko=" + zaiko);
+        } else if (this.jhatten > 0) {
+            if (this.jzaiko > 0) {
+                System.out.println("jhattyu > 0 && jzaiko > 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
                 return ItemStatus.OnStock;
-            } else if (this.zaiko <= 0) {
-                System.out.println("hattyu > 0 && zaiko <= 0 : hattyu=" + hattyu + " zaiko=" + zaiko);
+            } else if (this.jzaiko <= 0) {
+                System.out.println("jhattyu > 0 && jzaiko <= 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
                 return ItemStatus.Standard;
             }
         }
@@ -126,92 +151,16 @@ public class ShelfStatus {
     }
 
 
-    public void SetJANCode(String jan) {
-        this.jancode = jan;
-    }
-
     public String GetJANCode() {
         return this.jancode;
     }
 
-    public void SetItemName(String itemname) {
-        this.itemname = itemname;
+    public String GetShohinCode() {
+        return this.shohincode;
     }
 
-    public String GetItemName() {
-        return this.itemname;
-    }
-
-    public void SetJyotai(String jyotai) {
-        this.jyotai = jyotai;
-    }
-
-    public String GetJyotai() {
-        return this.jyotai;
-    }
-
-    public void SetHattyu(int op) {
-        this.hattyu = op;
-    }
-
-    public int GetHattyu() {
-        return this.hattyu;
-    }
-
-    public void SetZaiko(int za) {
-        this.zaiko = za;
-    }
-
-    public int GetZaiko() {
-        return this.zaiko;
-    }
-
-    public void SetZaihatsu(int za) {
-        this.zaihatsu = za;
-    }
-
-    public int GetZaihatsu() {
-        return this.zaihatsu;
-    }
-
-    public void SetIso(int is) {
-        this.iso = is;
-    }
-
-    public int GetIso() {
-        return this.iso;
-    }
-
-    public void SetSyubai1(int sy) {
-        this.syubai1 = sy;
-    }
-
-    public int GetSyubai1() {
-        return this.syubai1;
-    }
-
-    public void SetSyubai2(int sy) {
-        this.syubai2 = sy;
-    }
-
-    public int GetSyubai2() {
-        return this.syubai2;
-    }
-
-    public void SetSyubai3(int sy) {
-        this.syubai3 = sy;
-    }
-
-    public int GetSyubai3() {
-        return this.syubai3;
-    }
-
-    public void SetArari(int ar) {
-        this.arari = ar;
-    }
-
-    public int GetArari() {
-        return this.arari;
+    public int GetJHattyu() {
+        return this.jhatten;
     }
 
 
@@ -284,63 +233,28 @@ public class ShelfStatus {
         } catch (Exception e) {
             return null;
         }
-//        ShelfStatus.ItemStatus istatus = ShelfStatus.ItemStatus.NONE;
-//        String itemname = "";
-//        Random random = new Random();
-//        int randomValue = random.nextInt(100);
-//
-//        switch (randomValue % 3) {
-//            case 0:
-//                istatus = ShelfStatus.ItemStatus.OnStock;
-//                break;
-//            case 1:
-//                istatus = ShelfStatus.ItemStatus.Standard;
-//                break;
-//            case 2:
-//                istatus = ShelfStatus.ItemStatus.NotStandard;
-//                break;
-//        }
-//
-//        switch (randomValue % 10) {
-//            case 0:
-//                itemname = "REWF18AW";
-//                break;
-//            case 1:
-//                itemname = "FTJ161AMUSASHIBK";
-//                break;
-//            case 2:
-//                itemname = "ES60WB";
-//                break;
-//            case 3:
-//                itemname = "HP484DRGX";
-//                break;
-//            case 4:
-//                itemname = "S531FABQ229T";
-//                break;
-//            case 5:
-//                itemname = "GF6310SCXR026JP";
-//                break;
-//            case 6:
-//                itemname = "MW792JA";
-//                break;
-//            case 7:
-//                itemname = "MODERN15A10RAS061JP";
-//                break;
-//            case 8:
-//                itemname = "PCNM750RAG";
-//                break;
-//            case 9:
-//                itemname = "GEFORCERTX2080TIVENTUSGP";
-//                break;
-//        }
+    }
 
-        //System.out.println("ステータス");
-//        status.SetItemStatus(istatus);
-//        status.SetItemName(itemname);
-        //status.stream = stream.toString();
+    public static String ParseInfoString(String base) {
+        try {
+            ShelfStatus status = ShelfStatus.GetLatestShelfStatus();
 
+            Object[] args = {
+                    status.shohinban, status.jyotai, status.arari, status.mise,
+                    status.jzaiko, status.jzaihatsu, status.jiso, status.jhatten, status.jsyubai1, status.jsyubai2, status.jsyubai3,
+                    status.zzaiko, status.zzaihatsu, status.ziso, status.zhatten, status.zsyubai1, status.zsyubai2, status.zsyubai3
+            };
 
-        //return status;
+            String after = String.format(base, args);
+            System.out.println(after);
+
+            return after;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getStackTrace());
+
+            return "";
+        }
     }
 
     public static ShelfStatus ParseJsonString(String jsontext) {
@@ -348,43 +262,74 @@ public class ShelfStatus {
         System.out.println("jsontext:" + jsontext);
 
         ShelfStatus status = new ShelfStatus();
+        status.jsontxt = jsontext;
 
         try {
-            JSONObject json = new JSONObject(jsontext);
+            JSONObject json = new JSONObject(status.jsontxt);
 
             //ここでjsonをShelfStatusにパーサする
-            status.SetJANCode(json.getString("JANCode"));
-            System.out.println("JANCode:" + status.GetJANCode());
+            status.jancode = json.getString("JANCode");
+            System.out.println("JANCode:" + status.jancode);
 
-            status.SetItemName(json.getString("ShohinCode"));
-            System.out.println("ShohinCode:" + status.GetItemName());
+            status.shohinban = json.getString("ShohinBan");
+            System.out.println("ShohinBan:" + status.shohinban);
 
-            status.SetJyotai(json.getString("Jyotai"));
-            System.out.println("Jyotai:" + status.GetJyotai());
+            status.shohincode = json.getString("ShohinCode");
+            System.out.println("ShohinCode:" + status.shohincode);
 
-            status.SetHattyu(json.getInt("Hattyu"));
-            System.out.println("Hattyu:" + status.GetHattyu());
+            status.mise = json.getString("Mise");
+            System.out.println("Mise:" + status.mise);
 
-            status.SetZaiko(json.getInt("Zaiko"));
-            System.out.println("Zaiko:" + status.GetZaiko());
+            status.jyotai = json.getString("Jyotai");
+            System.out.println("Jyotai:" + status.jyotai);
 
-            status.SetZaihatsu(json.getInt("ZaiHatsu"));
-            System.out.println("ZaiHatsu:" + status.GetZaihatsu());
 
-            status.SetIso(json.getInt("Iso"));
-            System.out.println("Iso:" + status.GetIso());
+            status.jhatten = json.getInt("JHatten");
+            System.out.println("JHatten:" + status.jhatten);
 
-            status.SetSyubai1(json.getInt("Syubai1"));
-            System.out.println("Syubai1:" + status.GetSyubai1());
+            status.jzaiko = json.getInt("JZaiko");
+            System.out.println("JZaiko:" + status.jzaiko);
 
-            status.SetSyubai2(json.getInt("Syubai2"));
-            System.out.println("Syubai2:" + status.GetSyubai2());
+            status.jzaihatsu = json.getInt("JZaiHatsu");
+            System.out.println("JZaiHatsu:" + status.jzaihatsu);
 
-            status.SetSyubai3(json.getInt("Syubai3"));
-            System.out.println("Syubai3:" + status.GetSyubai3());
+            status.jiso = json.getInt("JIso");
+            System.out.println("JIso:" + status.jiso);
 
-            status.SetArari(json.getInt("Arari"));
-            System.out.println("Arari:" + status.GetArari());
+            status.jsyubai1 = json.getInt("JSyubai1");
+            System.out.println("JSyubai1:" + status.jsyubai1);
+
+            status.jsyubai2 = json.getInt("JSyubai2");
+            System.out.println("JSyubai2:" + status.jsyubai2);
+
+            status.jsyubai3 = json.getInt("JSyubai3");
+            System.out.println("JSyubai3:" + status.jsyubai3);
+
+
+            status.zhatten = json.getInt("ZHatten");
+            System.out.println("ZHatten:" + status.zhatten);
+
+            status.zzaiko = json.getInt("ZZaiko");
+            System.out.println("ZZaiko:" + status.zzaiko);
+
+            status.zzaihatsu = json.getInt("ZZaiHatsu");
+            System.out.println("ZZaiHatsu:" + status.zzaihatsu);
+
+            status.ziso = json.getInt("ZIso");
+            System.out.println("ZIso:" + status.ziso);
+
+            status.zsyubai1 = json.getInt("ZSyubai1");
+            System.out.println("ZSyubai1:" + status.zsyubai1);
+
+            status.zsyubai2 = json.getInt("ZSyubai2");
+            System.out.println("ZSyubai2:" + status.zsyubai2);
+
+            status.zsyubai3 = json.getInt("ZSyubai3");
+            System.out.println("ZSyubai3:" + status.zsyubai3);
+
+
+            status.arari = json.getInt("Arari");
+            System.out.println("Arari:" + status.arari);
 
         } catch (JSONException jex) {
             System.out.println(jex.getMessage());

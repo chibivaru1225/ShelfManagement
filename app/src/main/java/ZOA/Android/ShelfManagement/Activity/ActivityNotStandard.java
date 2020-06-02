@@ -14,13 +14,11 @@ public class ActivityNotStandard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.not_standard);
-        setTitle(ShelfStatus.GetLatestShelfStatus().GetItemName());
+        setContentView(R.layout.activity_not_standard);
+        setTitle(ShelfStatus.GetLatestShelfStatus().GetShohinCode());
 
         TextView txtB = findViewById(R.id.nsTxtB);
-        TextView txtC = findViewById(R.id.nsTxtC);
-        txtB.setText(String.format(getString(R.string.nsTxtB), ShelfStatus.GetLatestShelfStatus().GetSyubai1()));
-        txtC.setText(String.format(getString(R.string.nsTxtC), ShelfStatus.GetLatestShelfStatus().GetArari()));
+        txtB.setText(ShelfStatus.ParseInfoString(getString(R.string.dtTxtA)));
         //txtB.setText();
     }
 

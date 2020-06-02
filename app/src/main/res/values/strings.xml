@@ -20,4 +20,9 @@
     <string name="noBtnB">メニューに戻る</string>
     <string name="asCbxA">送信する</string>
     <string name="ssTxtA">送信中……</string>
+    <string name="dtTxtA">(商:%-7s) 状態:%-5s 粗:%,5d\n
+    \n
+    店 在庫 在発 移送 発点 週１ 週２ 週３\n
+    %s %4d  %4d  %4d  %4d  %4d  %4d  %4d\n
+    全 %4d  %4d  %4d  %4d  %4d  %4d  %4d</string>
 </resources>

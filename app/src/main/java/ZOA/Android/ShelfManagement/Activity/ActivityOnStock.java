@@ -3,6 +3,7 @@ package ZOA.Android.ShelfManagement.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,10 +14,14 @@ public class ActivityOnStock extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.onstock);
+        setContentView(R.layout.activity_onstock);
         //setTitle(getString(R.string.app_name) + " Item:" + ShelfStatus.GetLatestShelfStatus().GetItemName());
-        setTitle(ShelfStatus.GetLatestShelfStatus().GetItemName());
+        setTitle(ShelfStatus.GetLatestShelfStatus().GetShohinCode());
         //task.execute()
+
+
+        TextView txtA = findViewById(R.id.osTxtB);
+        txtA.setText(ShelfStatus.ParseInfoString(getString(R.string.dtTxtA)));
     }
 
     public void osBtnA_Click(View v) {

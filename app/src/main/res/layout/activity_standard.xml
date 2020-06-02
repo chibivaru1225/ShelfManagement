@@ -23,5 +23,13 @@
             android:layout_weight="8"
             android:onClick="stBtnA_Click"
             android:text="@string/stBtnA" />
+
+        <TextView
+            android:id="@+id/stTxtB"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/dtTxtA" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

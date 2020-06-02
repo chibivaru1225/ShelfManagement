@@ -23,7 +23,7 @@ public class ActivityNextOperation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.next_operation);
+        setContentView(R.layout.activity_next_operation);
         //setTitle(getString(R.string.app_name) + " Item:" + ShelfStatus.GetLatestShelfStatus().GetItemName());
         //setTitle(ShelfStatus.GetLatestShelfStatus().GetItemName());
         //task.execute()

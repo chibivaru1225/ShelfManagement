@@ -110,8 +110,8 @@ public class TaskHttpGet extends AsyncTask<String, Integer, ShelfStatus> {
         if (listener != null) {
             if (status != null) {
                 System.out.println("ItemStatus:" + status.GetItemStatus());
-                System.out.println("ItemName:" + status.GetItemName() + ":eof");
-                if (status.GetItemStatus() != ShelfStatus.ItemStatus.NONE && !status.GetItemName().isEmpty()) {
+                System.out.println("ItemName:" + status.GetShohinCode() + ":eof");
+                if (status.GetItemStatus() != ShelfStatus.ItemStatus.NONE && !status.GetShohinCode().isEmpty()) {
                     System.out.println("Success");
                     listener.onSuccess();
                 } else {

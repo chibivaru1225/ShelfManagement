@@ -12,7 +12,7 @@
             android:id="@+id/osTxtA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
             android:text="@string/osTxtA" />
 
@@ -20,7 +20,7 @@
             android:id="@+id/osBtnA"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="4"
             android:onClick="osBtnA_Click"
             android:text="@string/osBtnA" />
 
@@ -28,8 +28,16 @@
             android:id="@+id/osBtnB"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="4"
             android:onClick="osBtnB_Click"
             android:text="@string/osBtnB" />
+
+        <TextView
+            android:id="@+id/osTxtB"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:text="@string/dtTxtA" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

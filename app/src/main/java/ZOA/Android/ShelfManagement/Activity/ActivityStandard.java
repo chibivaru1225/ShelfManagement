@@ -15,11 +15,13 @@ public class ActivityStandard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.standard);
-        setTitle(ShelfStatus.GetLatestShelfStatus().GetItemName());
+        setContentView(R.layout.activity_standard);
+        setTitle(ShelfStatus.GetLatestShelfStatus().GetShohinCode());
 
         TextView txtA = findViewById(R.id.stTxtA);
-        txtA.setText(String.format(getString(R.string.stTxtA), ShelfStatus.GetLatestShelfStatus().GetHattyu()));
+        TextView txtB = findViewById(R.id.stTxtB);
+        txtA.setText(String.format(getString(R.string.stTxtA), ShelfStatus.GetLatestShelfStatus().GetJHattyu()));
+        txtB.setText(ShelfStatus.ParseInfoString(getString(R.string.dtTxtA)));
     }
 
     public void stBtnA_Click(View v) {
