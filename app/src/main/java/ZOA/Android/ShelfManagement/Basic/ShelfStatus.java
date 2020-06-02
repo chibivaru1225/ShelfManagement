@@ -50,7 +50,9 @@ public class ShelfStatus {
         errorstatus = ErrorStatus.NONE;
         selectstatus = SelectStatus.NONE;
         jancode = "";
+        shohinban = "";
         shohincode = "";
+        mise = "";
         jyotai = "";
         issend = true;
         //ipaddress =
@@ -79,7 +81,9 @@ public class ShelfStatus {
         errorstatus = estatus;
         selectstatus = SelectStatus.NONE;
         jancode = "";
+        shohinban = "";
         shohincode = "";
+        mise = "";
         jyotai = "";
         issend = true;
 
@@ -155,12 +159,83 @@ public class ShelfStatus {
         return this.jancode;
     }
 
+    public String GetShohinBan() {
+        return this.shohinban;
+    }
+
     public String GetShohinCode() {
         return this.shohincode;
     }
 
-    public int GetJHattyu() {
+    public String GetJyotai() {
+        return this.jyotai;
+    }
+
+    public String GetMise() {
+        return this.mise;
+    }
+
+
+    public int GetJZaiko() {
+        return this.jzaiko;
+    }
+
+    public int GetJZaiHatsu() {
+        return this.jzaihatsu;
+    }
+
+    public int GetJIso() {
+        return this.jiso;
+    }
+
+    public int GetJHatten() {
         return this.jhatten;
+    }
+
+    public int GetJSyubai1() {
+        return this.jsyubai1;
+    }
+
+    public int GetJSyubai2() {
+        return this.jsyubai2;
+    }
+
+    public int GetJSyubai3() {
+        return this.jsyubai3;
+    }
+
+
+    public int GetZZaiko() {
+        return this.zzaiko;
+    }
+
+    public int GetZZaiHatsu() {
+        return this.zzaihatsu;
+    }
+
+    public int GetZIso() {
+        return this.ziso;
+    }
+
+    public int GetZHatten() {
+        return this.zhatten;
+    }
+
+    public int GetZSyubai1() {
+        return this.zsyubai1;
+    }
+
+    public int GetZSyubai2() {
+        return this.zsyubai2;
+    }
+
+    public int GetZSyubai3() {
+        return this.zsyubai3;
+    }
+
+
+    public int GetArari() {
+        return this.arari;
     }
 
 
@@ -268,68 +343,108 @@ public class ShelfStatus {
             JSONObject json = new JSONObject(status.jsontxt);
 
             //ここでjsonをShelfStatusにパーサする
-            status.jancode = json.getString("JANCode");
-            System.out.println("JANCode:" + status.jancode);
+            if (json.has("JANCode")) {
+                status.jancode = json.getString("JANCode");
+                System.out.println("JANCode:" + status.jancode);
+            }
 
-            status.shohinban = json.getString("ShohinBan");
-            System.out.println("ShohinBan:" + status.shohinban);
+            if (json.has("ShohinBan")) {
+                status.shohinban = json.getString("ShohinBan");
+                System.out.println("ShohinBan:" + status.shohinban);
+            }
 
-            status.shohincode = json.getString("ShohinCode");
-            System.out.println("ShohinCode:" + status.shohincode);
+            if (json.has("ShohinCode")) {
+                status.shohincode = json.getString("ShohinCode");
+                System.out.println("ShohinCode:" + status.shohincode);
+            }
 
-            status.mise = json.getString("Mise");
-            System.out.println("Mise:" + status.mise);
+            if (json.has("Mise")) {
+                status.mise = json.getString("Mise");
+                System.out.println("Mise:" + status.mise);
+            }
 
-            status.jyotai = json.getString("Jyotai");
-            System.out.println("Jyotai:" + status.jyotai);
-
-
-            status.jhatten = json.getInt("JHatten");
-            System.out.println("JHatten:" + status.jhatten);
-
-            status.jzaiko = json.getInt("JZaiko");
-            System.out.println("JZaiko:" + status.jzaiko);
-
-            status.jzaihatsu = json.getInt("JZaiHatsu");
-            System.out.println("JZaiHatsu:" + status.jzaihatsu);
-
-            status.jiso = json.getInt("JIso");
-            System.out.println("JIso:" + status.jiso);
-
-            status.jsyubai1 = json.getInt("JSyubai1");
-            System.out.println("JSyubai1:" + status.jsyubai1);
-
-            status.jsyubai2 = json.getInt("JSyubai2");
-            System.out.println("JSyubai2:" + status.jsyubai2);
-
-            status.jsyubai3 = json.getInt("JSyubai3");
-            System.out.println("JSyubai3:" + status.jsyubai3);
+            if (json.has("Jyotai")) {
+                status.jyotai = json.getString("Jyotai");
+                System.out.println("Jyotai:" + status.jyotai);
+            }
 
 
-            status.zhatten = json.getInt("ZHatten");
-            System.out.println("ZHatten:" + status.zhatten);
+            if (json.has("JHatten")) {
+                status.jhatten = json.getInt("JHatten");
+                System.out.println("JHatten:" + status.jhatten);
+            }
 
-            status.zzaiko = json.getInt("ZZaiko");
-            System.out.println("ZZaiko:" + status.zzaiko);
+            if (json.has("JZaiko")) {
+                status.jzaiko = json.getInt("JZaiko");
+                System.out.println("JZaiko:" + status.jzaiko);
+            }
 
-            status.zzaihatsu = json.getInt("ZZaiHatsu");
-            System.out.println("ZZaiHatsu:" + status.zzaihatsu);
+            if (json.has("JZaiHatsu")) {
+                status.jzaihatsu = json.getInt("JZaiHatsu");
+                System.out.println("JZaiHatsu:" + status.jzaihatsu);
+            }
 
-            status.ziso = json.getInt("ZIso");
-            System.out.println("ZIso:" + status.ziso);
+            if (json.has("JIso")) {
+                status.jiso = json.getInt("JIso");
+                System.out.println("JIso:" + status.jiso);
+            }
 
-            status.zsyubai1 = json.getInt("ZSyubai1");
-            System.out.println("ZSyubai1:" + status.zsyubai1);
+            if (json.has("JSyubai1")) {
+                status.jsyubai1 = json.getInt("JSyubai1");
+                System.out.println("JSyubai1:" + status.jsyubai1);
+            }
 
-            status.zsyubai2 = json.getInt("ZSyubai2");
-            System.out.println("ZSyubai2:" + status.zsyubai2);
+            if (json.has("JSyubai2")) {
+                status.jsyubai2 = json.getInt("JSyubai2");
+                System.out.println("JSyubai2:" + status.jsyubai2);
+            }
 
-            status.zsyubai3 = json.getInt("ZSyubai3");
-            System.out.println("ZSyubai3:" + status.zsyubai3);
+            if (json.has("JSyubai3")) {
+                status.jsyubai3 = json.getInt("JSyubai3");
+                System.out.println("JSyubai3:" + status.jsyubai3);
+            }
 
 
-            status.arari = json.getInt("Arari");
-            System.out.println("Arari:" + status.arari);
+            if (json.has("ZHatten")) {
+                status.zhatten = json.getInt("ZHatten");
+                System.out.println("ZHatten:" + status.zhatten);
+            }
+
+            if (json.has("ZZaiko")) {
+                status.zzaiko = json.getInt("ZZaiko");
+                System.out.println("ZZaiko:" + status.zzaiko);
+            }
+
+            if (json.has("ZZaiHatsu")) {
+                status.zzaihatsu = json.getInt("ZZaiHatsu");
+                System.out.println("ZZaiHatsu:" + status.zzaihatsu);
+            }
+
+            if (json.has("ZIso")) {
+                status.ziso = json.getInt("ZIso");
+                System.out.println("ZIso:" + status.ziso);
+            }
+
+            if (json.has("ZSyubai1")) {
+                status.zsyubai1 = json.getInt("ZSyubai1");
+                System.out.println("ZSyubai1:" + status.zsyubai1);
+            }
+
+            if (json.has("ZSyubai2")) {
+                status.zsyubai2 = json.getInt("ZSyubai2");
+                System.out.println("ZSyubai2:" + status.zsyubai2);
+            }
+
+            if (json.has("ZSyubai3")) {
+                status.zsyubai3 = json.getInt("ZSyubai3");
+                System.out.println("ZSyubai3:" + status.zsyubai3);
+            }
+
+
+            if (json.has("Arari")) {
+                status.arari = json.getInt("Arari");
+                System.out.println("Arari:" + status.arari);
+            }
 
         } catch (JSONException jex) {
             System.out.println(jex.getMessage());

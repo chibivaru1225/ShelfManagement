@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import ZOA.Android.ShelfManagement.Basic.Util;
 import ZOA.Android.ShelfManagement.R;
 import ZOA.Android.ShelfManagement.Basic.ShelfStatus;
 
@@ -17,9 +18,7 @@ public class ActivityNotStandard extends AppCompatActivity {
         setContentView(R.layout.activity_not_standard);
         setTitle(ShelfStatus.GetLatestShelfStatus().GetShohinCode());
 
-        TextView txtB = findViewById(R.id.nsTxtB);
-        txtB.setText(ShelfStatus.ParseInfoString(getString(R.string.dtTxtA)));
-        //txtB.setText();
+        Util.SetShelfStatus(this, findViewById(R.id.nsShelf));
     }
 
     public void nsBtnA_Click(View v) {

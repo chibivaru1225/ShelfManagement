@@ -32,12 +32,17 @@
             android:onClick="osBtnB_Click"
             android:text="@string/osBtnB" />
 
-        <TextView
-            android:id="@+id/osTxtB"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:text="@string/dtTxtA" />
+            android:layout_weight="2">
+
+            <include
+                android:id="@+id/osShelf"
+                layout="@layout/adapter_shelf_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

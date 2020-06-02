@@ -25,4 +25,18 @@
     店 在庫 在発 移送 発点 週１ 週２ 週３\n
     %s %4d  %4d  %4d  %4d  %4d  %4d  %4d\n
     全 %4d  %4d  %4d  %4d  %4d  %4d  %4d</string>
+    <string name="dtSb">(商:%s)</string>
+    <string name="dtJy">状態:%s</string>
+    <string name="dtAr">粗:%,d</string>
+    <string name="dtMi">%s</string>
+    <string name="dtNum">%d</string>
+    <string name="txtHdMise">店</string>
+    <string name="txtHdZaiko">在庫</string>
+    <string name="txtHdZaiHatsu">在発</string>
+    <string name="txtHdIso">移送</string>
+    <string name="txtHdHatten">発点</string>
+    <string name="txtHdSyu1">週１</string>
+    <string name="txtHdSyu2">週２</string>
+    <string name="txtHdSyu3">週３</string>
+    <string name="txtZMise">全</string>
 </resources>
