@@ -39,7 +39,6 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
     private Button mScanButton;
     private boolean open;
     private boolean createview;
-    private boolean lock;
 
     private SharedPreferences pre;
     private SharedPreferences.Editor edi;
@@ -60,7 +59,6 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
         mAsPointerManager = AsPointerManager.getInstance();
         open = false;
         createview = false;
-        lock = false;
     }
 
     @Override
@@ -106,28 +104,27 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
     @Override
     public synchronized Boolean continueScanWhenReceivedScanData(HashMap<String, String> hashMap, Boolean aBoolean) throws CameraAccessException {
         asBarcode.stopScan();
-        synchronized (this) {
-            try {
-                if (hashMap != null) {
-                    for (String key : hashMap.keySet()) {
-                        System.out.println("item:" + key);
-                        Intent i = new Intent(getApplication(), ActivityWait.class);
-                        i.putExtra("key", key);
+//        Toast.makeText(this, "continueScanWhenReceivedScanData", Toast.LENGTH_SHORT).show();
+        try {
+            if (hashMap != null) {
+                for (String key : hashMap.keySet()) {
+                    System.out.println("item:" + key);
+                    Intent i = new Intent(getApplication(), ActivityWait.class);
+                    i.putExtra("key", key);
 
-                        if (ShelfStatus.HasKey(key) == false) {
-                            startActivity(i);
-                        }
-
-                        break;
+                    if (ShelfStatus.HasKey(key) == false) {
+                        startActivity(i);
                     }
+
+                    break;
                 }
-            } catch (Exception e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                lock = false;
-                finish();
             }
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            finish();
         }
-        return true;
+
+        return false;
     }
 
     @Override
@@ -143,6 +140,7 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
     @Override
     public void onResume() {
         super.onResume();
+//        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
 
         if (ActivityNextOperation.GetBackMenu() == true) {
             finish();
@@ -223,6 +221,8 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
         asBarcode.setScanningAreaHeight(100);
 
         asBarcode.setFullScreenScan(false);
+
+//        asBarcode.setVerifyCount(1);
 
 //        asBarcode.setVerifyCount(2);
 //        asBarcode.setFrequencyLimit((float)(2 * 10));
