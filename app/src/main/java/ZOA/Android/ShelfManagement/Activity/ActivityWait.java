@@ -46,10 +46,10 @@ public class ActivityWait extends AppCompatActivity implements WifiP2pManager.Ac
             case OnStock:
                 startActivity(new Intent(getApplication(), ActivityOnStock.class));
                 break;
-            case Standard:
+            case OnArrival:
                 startActivity(new Intent(getApplication(), ActivityStandard.class));
                 break;
-            case NotStandard:
+            case NotArrival:
                 startActivity(new Intent(getApplication(), ActivityNotStandard.class));
                 break;
             case NONE:

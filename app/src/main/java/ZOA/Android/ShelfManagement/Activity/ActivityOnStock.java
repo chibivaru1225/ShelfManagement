@@ -18,7 +18,7 @@ public class ActivityOnStock extends AppCompatActivity {
         setContentView(R.layout.activity_onstock);
         setTitle(ShelfStatus.GetLatestShelfStatus().GetShohinCode());
 
-        Util.SetShelfStatus(this,findViewById(R.id.osShelf));
+        Util.SetShelfStatus(this,findViewById(R.id.osShelf), ShelfStatus.GetLatestShelfStatus());
     }
 
     public void osBtnA_Click(View v) {

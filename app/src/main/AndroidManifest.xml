@@ -24,6 +24,7 @@
         <activity  android:name=".Activity.ActivityShelfList"></activity>
         <activity  android:name=".Activity.ActivityNextOperation"></activity>
         <activity  android:name=".Activity.ActivityShelfSend"></activity>
+        <activity  android:name=".Activity.ActivityModeSelect"></activity>
     </application>
     <uses-feature android:name="android.hardware.camera" />
 

@@ -1,25 +1,30 @@
 package ZOA.Android.ShelfManagement.Basic;
 
-import android.content.Context;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.text.Layout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import ZOA.Android.ShelfManagement.R;
+import org.apache.commons.codec.StringEncoder;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.content.InputStreamBody;
 
-import static android.content.Context.WIFI_SERVICE;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+
+import ZOA.Android.ShelfManagement.R;
 
 public class Util {
     public static String IPAddress;
-    public static String GetURL = "http://webhn.zoa.local/Magic94Scripts/MGRQISPI94.dll?APPNAME=WEBHNCTL&PRGNAME=GetBhtItemInfo&ARGUMENTS=-N";
-    public static String PostURL= "";
+    public static String BaseURL = "http://webhn.local.zoa.co.jp:60001/magic94Scripts/mgrqispi94.dll";
+    public static String GetURL = BaseURL + "?APPNAME=WEBHNCTL&PRGNAME=GetBhtItemInfo&ARGUMENTS=-N";
+    //public static String GetURL = "http://webhn.zoa.local/Magic94Scripts/MGRQISPI94.dll?APPNAME=WEBHNCTL&PRGNAME=GetBhtItemInfo&ARGUMENTS=-N";
+    public static String PostURL = BaseURL;
+    //public static String PostURL = "http://webhn.local.zoa.co.jp:60001/magic94Scripts/mgrqispi94.dll";
+    //public static String LF = System.lineSeparator();
+    public static String LF = "\r\n";
 
-    public static void SetShelfStatus(AppCompatActivity activity, ConstraintLayout ir)
-    {
+    public static void SetShelfStatus(AppCompatActivity activity, ConstraintLayout ir, ShelfStatus status) {
         TextView sb = ir.findViewById(R.id.shelfTxtSb);
         TextView jy = ir.findViewById(R.id.shelfTxtJy);
         TextView ar = ir.findViewById(R.id.shelfTxtAr);
@@ -42,25 +47,39 @@ public class Util {
         TextView zs3 = ir.findViewById(R.id.shelfTxtZSyubai3);
 
 
-        sb.setText(String.format(activity.getString(R.string.dtSb), ShelfStatus.GetLatestShelfStatus().GetShohinBan()));
-        jy.setText(String.format(activity.getString(R.string.dtJy), ShelfStatus.GetLatestShelfStatus().GetJyotai()));
-        ar.setText(String.format(activity.getString(R.string.dtAr), ShelfStatus.GetLatestShelfStatus().GetArari()));
-        mi.setText(String.format(activity.getString(R.string.dtMi), ShelfStatus.GetLatestShelfStatus().GetMise()));
+        sb.setText(String.format(activity.getString(R.string.dtSb), status.GetShohinBan()));
+        jy.setText(String.format(activity.getString(R.string.dtJy), status.GetJyotai()));
+        ar.setText(String.format(activity.getString(R.string.dtAr), status.GetArari()));
+        mi.setText(String.format(activity.getString(R.string.dtMi), status.GetMise()));
 
-        jza.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetJZaiko()));
-        jzh.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetJZaiHatsu()));
-        jis.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetJIso()));
-        jha.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetJHatten()));
-        js1.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetJSyubai1()));
-        js2.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetJSyubai2()));
-        js3.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetJSyubai3()));
+        jza.setText(String.format(activity.getString(R.string.dtNum), status.GetJZaiko()));
+        jzh.setText(String.format(activity.getString(R.string.dtNum), status.GetJZaiHatsu()));
+        jis.setText(String.format(activity.getString(R.string.dtNum), status.GetJIso()));
+        jha.setText(String.format(activity.getString(R.string.dtNum), status.GetJHatten()));
+        js1.setText(String.format(activity.getString(R.string.dtNum), status.GetJSyubai1()));
+        js2.setText(String.format(activity.getString(R.string.dtNum), status.GetJSyubai2()));
+        js3.setText(String.format(activity.getString(R.string.dtNum), status.GetJSyubai3()));
 
-        zza.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetZZaiko()));
-        zzh.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetZZaiHatsu()));
-        zis.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetZIso()));
-        zha.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetZHatten()));
-        zs1.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetZSyubai1()));
-        zs2.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetZSyubai2()));
-        zs3.setText(String.format(activity.getString(R.string.dtNum), ShelfStatus.GetLatestShelfStatus().GetZSyubai3()));
+        zza.setText(String.format(activity.getString(R.string.dtNum), status.GetZZaiko()));
+        zzh.setText(String.format(activity.getString(R.string.dtNum), status.GetZZaiHatsu()));
+        zis.setText(String.format(activity.getString(R.string.dtNum), status.GetZIso()));
+        zha.setText(String.format(activity.getString(R.string.dtNum), status.GetZHatten()));
+        zs1.setText(String.format(activity.getString(R.string.dtNum), status.GetZSyubai1()));
+        zs2.setText(String.format(activity.getString(R.string.dtNum), status.GetZSyubai2()));
+        zs3.setText(String.format(activity.getString(R.string.dtNum), status.GetZSyubai3()));
+    }
+}
+
+class KnownSizeInputStreamBody extends InputStreamBody {
+    private final long contentLength;
+
+    public KnownSizeInputStreamBody(InputStream in, long contentLength, ContentType contentType) {
+        super(in, contentType);
+        this.contentLength = contentLength;
+    }
+
+    @Override
+    public long getContentLength() {
+        return contentLength;
     }
 }

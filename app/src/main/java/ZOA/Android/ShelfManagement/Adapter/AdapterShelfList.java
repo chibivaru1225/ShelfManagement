@@ -1,5 +1,7 @@
 package ZOA.Android.ShelfManagement.Adapter;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import ZOA.Android.ShelfManagement.Activity.ActivityModeSelect;
+import ZOA.Android.ShelfManagement.Activity.ActivityNextOperation;
+import ZOA.Android.ShelfManagement.Interface.InterfaceShelfList;
 import ZOA.Android.ShelfManagement.R;
 import ZOA.Android.ShelfManagement.Basic.ShelfStatus;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class AdapterShelfList extends RecyclerView.Adapter<AdapterShelfList.ShelfViewHolder> {
 
     private ArrayList<ShelfStatus> statuslist;
+    private InterfaceShelfList listener;
 
     static class ShelfViewHolder extends RecyclerView.ViewHolder {
 
@@ -37,8 +45,9 @@ public class AdapterShelfList extends RecyclerView.Adapter<AdapterShelfList.Shel
         }
     }
 
-    public AdapterShelfList(ArrayList<ShelfStatus> list) {
+    public AdapterShelfList(ArrayList<ShelfStatus> list, InterfaceShelfList parent) {
         this.statuslist = list;
+        this.listener = parent;
     }
 
     @NonNull
@@ -63,15 +72,25 @@ public class AdapterShelfList extends RecyclerView.Adapter<AdapterShelfList.Shel
         holder.txtSelectStatus.setText(ShelfStatus.GetSelectStatusText(statuslist.get(position).GetSelectStatus()));
 
         holder.cbSend.setOnCheckedChangeListener((buttonView, isChecked) -> statuslist.get(position).SetIsSend(isChecked));
+
+        holder.txtItemName.setOnClickListener((buttonView) -> OpenSelectStatus(statuslist.get(position)));
+        holder.txtItemStatus.setOnClickListener((buttonView) -> OpenSelectStatus(statuslist.get(position)));
+        holder.txtSelectStatus.setOnClickListener((buttonView) -> OpenSelectStatus(statuslist.get(position)));
+
+        if (position % 2 == 0)
+            holder.itemView.setBackgroundColor(Color.WHITE);
+        else
+            holder.itemView.setBackgroundColor(Color.LTGRAY);
+    }
+
+
+    public void OpenSelectStatus(ShelfStatus status) {
+        if (this.listener != null)
+            this.listener.OpenNewActivity(status);
     }
 
     @Override
     public int getItemCount() {
         return statuslist.size();
-    }
-
-    public void SetShelfListIsSendAll(boolean send)
-    {
-        //this.
     }
 }

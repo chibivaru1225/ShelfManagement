@@ -1,10 +1,12 @@
 package ZOA.Android.ShelfManagement.Activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraAccessException;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -29,8 +31,9 @@ import java.util.HashMap;
 
 import ZOA.Android.ShelfManagement.R;
 import ZOA.Android.ShelfManagement.Basic.ShelfStatus;
+import ZOA.Android.ShelfManagement.Task.TaskHttpGet;
 
-public class ActivityReader extends AppCompatActivity implements AsPointerManagerInterface, AsPointerInterface, CertifiedSDKInterface {
+public class ActivityReader extends AppCompatActivity implements AsPointerManagerInterface, AsPointerInterface, CertifiedSDKInterface, WifiP2pManager.ActionListener {
 
     private AsBarcode asBarcode;
     private AsPointerManager mAsPointerManager;
@@ -39,6 +42,8 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
     private Button mScanButton;
     private boolean open;
     private boolean createview;
+    private boolean backoperationing;
+    private TaskHttpGet task;
 
     private SharedPreferences pre;
     private SharedPreferences.Editor edi;
@@ -59,6 +64,7 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
         mAsPointerManager = AsPointerManager.getInstance();
         open = false;
         createview = false;
+        backoperationing = false;
     }
 
     @Override
@@ -102,20 +108,17 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
     }
 
     @Override
+//    public synchronized Boolean continueScanWhenReceivedScanData(HashMap<String, String> hashMap, Boolean aBoolean) throws CameraAccessException {
+//        Log.d("Test", "continueScanWhenReceivedScanData");
+//        return false;
+//    }
+
     public synchronized Boolean continueScanWhenReceivedScanData(HashMap<String, String> hashMap, Boolean aBoolean) throws CameraAccessException {
-        asBarcode.stopScan();
-//        Toast.makeText(this, "continueScanWhenReceivedScanData", Toast.LENGTH_SHORT).show();
+        System.out.println("Shelf:continueScanWhenReceivedScanData");
         try {
-            if (hashMap != null) {
+            if (hashMap != null && backoperationing == false) {
                 for (String key : hashMap.keySet()) {
-                    System.out.println("item:" + key);
-                    Intent i = new Intent(getApplication(), ActivityWait.class);
-                    i.putExtra("key", key);
-
-                    if (ShelfStatus.HasKey(key) == false) {
-                        startActivity(i);
-                    }
-
+                    startBackGroundWorker(key);
                     break;
                 }
             }
@@ -139,12 +142,12 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
 
     @Override
     public void onResume() {
-        super.onResume();
-//        Toast.makeText(this, "onResume", Toast.LENGTH_SHORT).show();
-
         if (ActivityNextOperation.GetBackMenu() == true) {
             finish();
         }
+
+        super.onResume();
+        System.out.println("Shelf:onResume");
 
         setInitConfig();
 
@@ -169,26 +172,15 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
             } else {
                 asBarcode.reloadCamera(this);
             }
+            System.out.println("Shelf:onResume2");
             asBarcode.setTimeout(0);
             asBarcode.startScan();
-//
+
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         } catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
-//    public void onClick(View v) {
-//
-//        try {
-//            asBarcode.setTimeout(0);
-//            asBarcode.startScan();
-//
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-//        } catch (Exception e) {
-//            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
     // 復帰時に取り直し動かせるようにするため共通化
     private void setInitConfig() {
@@ -232,5 +224,62 @@ public class ActivityReader extends AppCompatActivity implements AsPointerManage
 //        asBarcode.setAutoExposure(true);
 
         asBarcode.setReportBNR(true);
+    }
+
+    private void startBackGroundWorker(String jancode)
+    {
+        backoperationing = true;
+        this.task = new TaskHttpGet();
+        task.setActionListener(this);
+        task.execute(jancode);
+    }
+
+    @Override
+    public void onSuccess() {
+        asBarcode.stopScan();
+        ShelfStatus latest = task.GetShelfStatus();
+        ShelfStatus.SetShelfStatus(task.GetShelfStatus());
+
+        switch (latest.GetItemStatus())
+        {
+//            case OnStock:
+//                startActivity(new Intent(getApplication(), ActivityOnStock.class));
+//                break;
+//            case OnArrival:
+//                startActivity(new Intent(getApplication(), ActivityStandard.class));
+//                break;
+//            case NotArrival:
+//                startActivity(new Intent(getApplication(), ActivityNotStandard.class));
+//                break;
+            case NONE:
+                Toast.makeText(this, "FAILURE Status", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                ActivityModeSelect.SetParentActivity(this);
+                ActivityModeSelect.SetShelfStatus(ShelfStatus.GetLatestShelfStatus());
+                startActivity(new Intent(getApplication(), ActivityModeSelect.class));
+                break;
+        }
+        backoperationing = false;
+    }
+
+    @Override
+    public void onFailure(int reason) {
+        switch (reason) {
+            case 0:
+                Toast.makeText(this, "存在しない商品です", Toast.LENGTH_SHORT).show();
+                break;
+            case 1:
+                Toast.makeText(this, "FAILURE HttpGet", Toast.LENGTH_SHORT).show();
+                break;
+            case 2:
+                Toast.makeText(this, "データの変換に失敗しました", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                Toast.makeText(this, "未知のエラーです", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        asBarcode.startScan();
+        backoperationing = false;
     }
 }

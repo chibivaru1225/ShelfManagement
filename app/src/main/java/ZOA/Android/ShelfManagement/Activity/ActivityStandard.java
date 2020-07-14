@@ -22,7 +22,7 @@ public class ActivityStandard extends AppCompatActivity {
         TextView txtA = findViewById(R.id.stTxtA);
         txtA.setText(String.format(getString(R.string.stTxtA), ShelfStatus.GetLatestShelfStatus().GetJHatten()));
 
-        Util.SetShelfStatus(this,findViewById(R.id.stShelf));
+        Util.SetShelfStatus(this,findViewById(R.id.stShelf), ShelfStatus.GetLatestShelfStatus());
     }
 
     public void stBtnA_Click(View v) {

@@ -8,10 +8,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import ZOA.Android.ShelfManagement.R;
-
-import static android.provider.Settings.System.getString;
-
 
 public class ShelfStatus {
 
@@ -109,23 +105,33 @@ public class ShelfStatus {
 
     public ItemStatus GetItemStatus() {
 
-        if (this.jhatten == 0) {
-            if (this.jzaiko <= 0) {
-                System.out.println("jhattyu == 0 && jzaiko <= 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
-                return ItemStatus.NotStandard;
-            } else if (this.jzaiko > 0) {
-                System.out.println("jhattyu == 0 && jzaiko > 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
-                return ItemStatus.OnStock;
+        if (this.jzaiko <= 0) {
+            if (this.jzaihatsu <= 0 && this.jiso <= 0 && this.jhatten <= 0) {
+                return ItemStatus.OnArrival;
+            } else {
+                return ItemStatus.NotArrival;
             }
-        } else if (this.jhatten > 0) {
-            if (this.jzaiko > 0) {
-                System.out.println("jhattyu > 0 && jzaiko > 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
-                return ItemStatus.OnStock;
-            } else if (this.jzaiko <= 0) {
-                System.out.println("jhattyu > 0 && jzaiko <= 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
-                return ItemStatus.Standard;
-            }
+        } else if (this.jzaiko > 0) {
+            return ItemStatus.OnStock;
         }
+
+//        if (this.jhatten == 0) {
+//            if (this.jzaiko <= 0) {
+//                System.out.println("jhattyu == 0 && jzaiko <= 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
+//                return ItemStatus.NotArrival;
+//            } else if (this.jzaiko > 0) {
+//                System.out.println("jhattyu == 0 && jzaiko > 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
+//                return ItemStatus.OnStock;
+//            }
+//        } else if (this.jhatten > 0) {
+//            if (this.jzaiko > 0) {
+//                System.out.println("jhattyu > 0 && jzaiko > 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
+//                return ItemStatus.OnStock;
+//            } else if (this.jzaiko <= 0) {
+//                System.out.println("jhattyu > 0 && jzaiko <= 0 : jhattyu=" + jhatten + " jzaiko=" + jzaiko);
+//                return ItemStatus.OnArrival;
+//            }
+//        }
 
         return this.itemstatus;
     }
@@ -249,6 +255,17 @@ public class ShelfStatus {
         return shelfstatuslist;
     }
 
+    public static int GetNotNoneShelfStatusCount() {
+        int r = 0;
+
+        for (ShelfStatus status : shelfstatuslist) {
+            if (status.GetSelectStatus() != SelectStatus.NONE)
+                r++;
+        }
+
+        return r;
+    }
+
     public static ShelfStatus[] GetShelfStatusArray() {
         ShelfStatus[] ss = new ShelfStatus[shelfstatuslist.size()];
         shelfstatuslist.toArray(ss);
@@ -310,27 +327,36 @@ public class ShelfStatus {
         }
     }
 
-    public static String ParseInfoString(String base) {
-        try {
-            ShelfStatus status = ShelfStatus.GetLatestShelfStatus();
+    public static String ConvertCSVString() {
+        String txt = new String();
+        StringBuilder builder = new StringBuilder();
 
-            Object[] args = {
-                    status.shohinban, status.jyotai, status.arari, status.mise,
-                    status.jzaiko, status.jzaihatsu, status.jiso, status.jhatten, status.jsyubai1, status.jsyubai2, status.jsyubai3,
-                    status.zzaiko, status.zzaihatsu, status.ziso, status.zhatten, status.zsyubai1, status.zsyubai2, status.zsyubai3
-            };
+        for (ShelfStatus status : ShelfStatus.GetShelfStatusArray()) {
+            //何もしない、は送らない
+            if (status.GetSelectStatus() == SelectStatus.NONE)
+                continue;
 
-            String after = String.format(base, args);
-            System.out.println(after);
+//            txt += "\"" + Util.IPAddress + "\",";
+//            txt += "\"" + status.jancode + "\",";
+//            txt += "\"" + ShelfStatus.GetSelectStatusCSVValue(status.GetSelectStatus()) + "\",";
+//            txt += "\"" + ShelfStatus.GetSelectStatusCSVBikoValue(status.GetSelectStatus()) + "\"" + Util.LF;
 
-            return after;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println(e.getStackTrace());
+            //txt += Util.IPAddress + ",";
+            txt += status.jancode + ",";
+            txt += ShelfStatus.GetSelectStatusCSVValue(status.GetSelectStatus()) + ",";
+            txt += ShelfStatus.GetSelectStatusCSVBikoValue(status.GetSelectStatus()) + Util.LF;
 
-            return "";
+            builder.append("\"" + Util.IPAddress + "\",");
+            builder.append("\"" + status.jancode + "\",");
+            builder.append("\"" + ShelfStatus.GetSelectStatusCSVValue(status.GetSelectStatus()) + "\",");
+            builder.append("\"" + ShelfStatus.GetSelectStatusCSVBikoValue(status.GetSelectStatus()) + "\"" + Util.LF);
         }
+
+        System.out.println("ConvertCSVString:" + txt);
+        System.out.println("ConvertCSVStringBuilder:" + builder.toString());
+        return txt;
     }
+
 
     public static ShelfStatus ParseJsonString(String jsontext) {
         System.out.println("call:ParseJsonString");
@@ -459,10 +485,10 @@ public class ShelfStatus {
         switch (status) {
             case OnStock:
                 return "在庫あり";
-            case Standard:
-                return "定番品";
-            case NotStandard:
-                return "削定番品";
+            case OnArrival:
+                return "入荷予定あり";
+            case NotArrival:
+                return "入荷予定なし";
             default:
                 return "";
         }
@@ -471,24 +497,84 @@ public class ShelfStatus {
     public static String GetSelectStatusText(SelectStatus status) {
         switch (status) {
             case PopRemove:
-                return "POPを撤去";
+                return "POPを外す";
             case Transfer:
-                return "移送を依頼する";
+                return "補充依頼する";
             case Display:
-                return "陳列(または在庫check)指示";
+                return "陳列･在庫チェック";
             case PopCreate:
-                return "POP作成";
+                return "POP出力";
             case OPIncrease:
                 return "発点増申請";
+            case OPDecrease:
+                return "発点減申請";
+            default:
+                return "何もしない";
+        }
+    }
+
+    public static String GetSelectStatusCSVValue(SelectStatus status) {
+        switch (status) {
+            case PopRemove:
+                return "ＰＯＰを外す";
+            case Transfer:
+                return "補充依頼する";
+            case Display:
+                return "陳列在庫ﾁｪｯｸ";
+            case PopCreate:
+                return "ＰＯＰ出力";
+            case OPIncrease:
+            case OPDecrease:
+                return "発注点変更";
             default:
                 return "";
+        }
+    }
+
+    public static String GetSelectStatusCSVValueB(SelectStatus status) {
+        switch (status) {
+            case PopRemove:
+                return "1";
+            case Transfer:
+                return "2";
+            case Display:
+                return "3";
+            case PopCreate:
+                return "4";
+            case OPIncrease:
+            case OPDecrease:
+                return "5";
+            default:
+                return "0";
+        }
+    }
+
+    public static String GetSelectStatusCSVBikoValue(SelectStatus status) {
+        switch (status) {
+            case OPIncrease:
+                return "増やす";
+            case OPDecrease:
+                return "減らす";
+            default:
+                return "";
+        }
+    }
+
+    public static String GetSelectStatusCSVBikoValueB(SelectStatus status) {
+        switch (status) {
+            case OPIncrease:
+                return "1";
+            case OPDecrease:
+                return "2";
+            default:
+                return "0";
         }
     }
 
     public static String GetSelectStatusJsonValue(SelectStatus status) {
         switch (status) {
             case PopRemove:
-                return "POP撤去";
+                return "POPを外す";
             case Transfer:
                 return "移送依頼";
             case Display:
@@ -504,8 +590,8 @@ public class ShelfStatus {
 
     public enum ItemStatus {
         OnStock,
-        Standard,
-        NotStandard,
+        OnArrival,
+        NotArrival,
         NONE,
     }
 
@@ -515,6 +601,7 @@ public class ShelfStatus {
         Display,
         PopCreate,
         OPIncrease,
+        OPDecrease,
         NONE,
     }
 

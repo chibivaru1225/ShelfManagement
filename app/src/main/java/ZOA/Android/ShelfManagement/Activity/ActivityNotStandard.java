@@ -18,7 +18,7 @@ public class ActivityNotStandard extends AppCompatActivity {
         setContentView(R.layout.activity_not_standard);
         setTitle(ShelfStatus.GetLatestShelfStatus().GetShohinCode());
 
-        Util.SetShelfStatus(this, findViewById(R.id.nsShelf));
+        Util.SetShelfStatus(this, findViewById(R.id.nsShelf), ShelfStatus.GetLatestShelfStatus());
     }
 
     public void nsBtnA_Click(View v) {

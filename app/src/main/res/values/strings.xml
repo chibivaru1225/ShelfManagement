@@ -39,4 +39,11 @@
     <string name="txtHdSyu2">週２</string>
     <string name="txtHdSyu3">週３</string>
     <string name="txtZMise">全</string>
+    <string name="msBtnA">POPを外す</string>
+    <string name="msBtnB">POPを出力</string>
+    <string name="msBtnC">陳列･在庫チェック</string>
+    <string name="msBtnD">補充依頼する</string>
+    <string name="msBtnE">発注点を増やす</string>
+    <string name="msBtnF">発注点を減らす</string>
+    <string name="msBtnG">何もしない</string>
 </resources>
